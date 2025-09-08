@@ -17,12 +17,13 @@ import xacro
 
 def generate_launch_description():
     
+
     bringup_pkg = get_package_share_directory('cestra_bringup')
     description_pkg = get_package_share_directory('cestra_description')
     # simulation_pkg = get_package_share_directory('cestra_simulation')
     
     default_world = os.path.join(description_pkg,'worlds','empty.world')    
-    robot_description = os.path.join(description_pkg, 'urdf', 'cestra.urdf')
+    robot_description = os.path.join(description_pkg, 'urdf', 'cestra_diff.urdf')
     robot_description_config = xacro.process_file(robot_description).toxml()
 
 
@@ -62,14 +63,13 @@ def generate_launch_description():
                         output='screen'
     )
 
-    drive_sim = Node(
-        executable='cmd_vel_bridge',
+    diff_drive_sim = Node(
+        executable='diff_drive_sim',
         package='cestra_simulation',
-        name='cmd_vel_bridge',
+        name='diff_drive_sim',
         output='screen',
         # parameters=[{'wheel_radius': 0.05, 'wheel_base': 0.19}]  # Example parameters
     )
-
 
     joy_params = os.path.join(bringup_pkg,'config','joystick.yaml')
     joy_node = Node(
@@ -98,14 +98,6 @@ def generate_launch_description():
             f'config_file:={bridge_params}',
         ]
     )
-    
-    joint_state_publisher= Node(
-        package='joint_state_publisher',
-        executable='joint_state_publisher',
-        name='joint_state_publisher',
-        output='screen',
-        # parameters=[{'source_list': ['/joint_states']}]
-    )
 
     ros_gz_image_bridge = Node(
         package="ros_gz_image",
@@ -126,9 +118,10 @@ def generate_launch_description():
         rviz_launch,
 
         spawn_entity,
-        # drive_sim,
-        joint_state_publisher,
-
         ros_gz_bridge,
+
+        diff_drive_sim,
+        # joint_state_publisher,
+
         # ros_gz_image_bridge,
     ])
