@@ -21,7 +21,7 @@
 
     <collision>
         <geometry>
-            <sphere radius="${diff_wheel_radius}"/>
+            <cylinder length="${diff_wheel_width}" radius="${diff_wheel_radius}" />
         </geometry>
     </collision>
 

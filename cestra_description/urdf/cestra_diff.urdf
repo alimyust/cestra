@@ -2,13 +2,13 @@
 
 <robot name="cestra" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-<xacro:include filename="$(find cestra_description)/urdf/robot_properties.urdf.xacro"/>
+<xacro:include filename="$(find cestra_description)/urdf/diff_drive/diff_properties.urdf.xacro"/>
+<xacro:include filename="$(find cestra_description)/urdf/diff_drive/diff_wheels.urdf.xacro"/>
 <xacro:include filename="$(find cestra_description)/urdf/inertial_macros.xacro" />
-<xacro:include filename="$(find cestra_description)/urdf/diff_wheels.urdf.xacro"/>
 
-<xacro:include filename="$(find cestra_description)/urdf/sensors/lidar.xacro" />
+<!-- <xacro:include filename="$(find cestra_description)/urdf/sensors/lidar.xacro" />
 <xacro:include filename="$(find cestra_description)/urdf/sensors/camera.xacro" />
-<xacro:include filename="$(find cestra_description)/urdf/sensors/imu.xacro" />
+<xacro:include filename="$(find cestra_description)/urdf/sensors/imu.xacro" /> -->
 
 <!-- Robot Base -->
 <link name="base_link"> </link>
@@ -75,14 +75,41 @@
         <mu2 value="0.01"/>
     </gazebo>
 
-<plugin name="diff_drive" filename="gz-sim-diff-drive-system">
-    <left_joint>left_wheel_joint</left_joint>
-    <right_joint>right_wheel_joint</right_joint>
-    <!-- Gazebo topic to listen to for velocity commands -->
-    <topic>cmd_vel</topic>
-    <!-- Optional: odometry output -->
-    <odom_topic>odom</odom_topic>
-</plugin>
+    <gazebo>
+        <plugin filename="gz-sim-joint-controller-system" name="gz::sim::systems::JointController">
+            <joint_name>left_wheel_joint</joint_name>
+            <joint_name>right_wheel_joint</joint_name>
+        </plugin>
 
+    </gazebo>
 
 </robot>
+
+
+<!-- 
+        <plugin filename="gz-sim-diff-drive-system" name="gz::sim::systems::DiffDrive">
+            <left_joint>left_wheel_joint</left_joint>
+            <right_joint>right_wheel_joint</right_joint>
+
+            
+            <wheel_separation>0.4</wheel_separation>   
+            <wheel_radius>0.1</wheel_radius>           
+
+            <topic>cmd_vel</topic>
+            <odom_topic>odom</odom_topic>
+
+            <odom_frame>odom</odom_frame>
+            <robot_base_frame>base_link</robot_base_frame>
+            <publish_odom>true</publish_odom>
+            <publish_tf>true</publish_tf>
+        </plugin>
+    
+
+        <plugin filename="gz-sim-joint-state-publisher-system" name="gz::sim::systems::JointStatePublisher">
+            <topic>joint_states</topic>
+            <joint_name>right_wheel_joint</joint_name>
+            <joint_name>left_wheel_joint</joint_name>
+        </plugin>
+
+
+ -->
