@@ -5,14 +5,14 @@
   direction: GZ_TO_ROS
 
 
-- ros_topic_name: "/left_wheel_velocity"
-  gz_topic_name: "/model/cestra/joint/left_wheel_joint/cmd_vel"
+- ros_topic_name: "/wheel_velocity"
+  gz_topic_name: "/model/cestra/joint/wheel_joint/cmd_vel"
   ros_type_name: "std_msgs/msg/Float64"
   gz_type_name: "gz.msgs.Double"
   direction: ROS_TO_GZ
 
-- ros_topic_name: "/right_wheel_velocity"
-  gz_topic_name: "/model/cestra/joint/right_wheel_joint/cmd_vel"
+- ros_topic_name: "/steer_velocity"
+  gz_topic_name: "/model/cestra/joint/steer_joint/cmd_vel"
   ros_type_name: "std_msgs/msg/Float64"
   gz_type_name: "gz.msgs.Double"
   direction: ROS_TO_GZ
