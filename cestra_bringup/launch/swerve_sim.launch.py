@@ -59,7 +59,7 @@ def generate_launch_description():
     # Run the spawner node from the ros_gz_sim package.
     spawn_entity = Node(package='ros_gz_sim', executable='create',
                         arguments=['-topic', 'robot_description',
-                                   '-name', 'cestra','-z', '1.0'],
+                                   '-name', 'cestra_swerve','-z', '1.0'],
                         output='screen'
     )
 
@@ -107,7 +107,7 @@ def generate_launch_description():
 
         world_arg,
         gazebo,
-        # rviz_launch,
+        rviz_launch,
 
         spawn_entity,
         ros_gz_bridge,
