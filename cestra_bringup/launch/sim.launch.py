@@ -21,7 +21,6 @@ def generate_launch_description():
     bringup_pkg = get_package_share_directory('cestra_bringup')
     description_pkg = get_package_share_directory('cestra_description')
     # simulation_pkg = get_package_share_directory('cestra_simulation')
-    
     default_world = os.path.join(description_pkg,'worlds','empty.world')    
     robot_description = os.path.join(description_pkg, 'urdf', 'cestra_diff.urdf')
     robot_description_config = xacro.process_file(robot_description).toxml()
@@ -34,6 +33,7 @@ def generate_launch_description():
         output='screen',
         parameters=[{'robot_description': robot_description_config}]
     )
+
     world = LaunchConfiguration('world')
     
     world_arg = DeclareLaunchArgument(
@@ -109,9 +109,9 @@ def generate_launch_description():
     # Launch them all!
     return LaunchDescription([
         rsp,
-        
-        # joy_node,
-        # teleop_node,
+
+        joy_node,
+        teleop_node,
 
         world_arg,
         gazebo,
@@ -121,7 +121,6 @@ def generate_launch_description():
         ros_gz_bridge,
 
         diff_drive_sim,
-        # joint_state_publisher,
 
         # ros_gz_image_bridge,
     ])

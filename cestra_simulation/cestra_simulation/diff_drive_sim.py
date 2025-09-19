@@ -3,13 +3,15 @@ from rclpy.node import Node
 from geometry_msgs.msg import Twist
 from std_msgs.msg import Float64
 
+
+
 class DiffDriveSim(Node):
     def __init__(self):
         super().__init__('diff_drive_sim')
         
         self.get_logger().info('DiffDriveSim node has been started.')
-        self.wheel_radius = 0.1  # meters
-        self.wheel_base = 0.4    # meters
+        self.wheel_radius = 0.05  # meters
+        self.wheel_base = 0.3   # meters
         self.subscriber = self.create_subscription(Twist,'cmd_vel',self.cmd_vel_callback,10)
         self.left_wheel_publisher_ = self.create_publisher(Float64, 'left_wheel_velocity', 10)
         self.right_wheel_publisher_ = self.create_publisher(Float64, 'right_wheel_velocity', 10)
@@ -30,7 +32,7 @@ class DiffDriveSim(Node):
         self.left_wheel_publisher_.publish(left_wheel_msg)
         self.right_wheel_publisher_.publish(right_wheel_msg)
         self.get_logger().info(f'Published wheel commands - Left: {v_left}, Right: {v_right}')
-
+    
 def main(args=None):
     rclpy.init(args=args)
 

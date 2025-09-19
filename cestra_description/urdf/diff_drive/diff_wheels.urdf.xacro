@@ -3,14 +3,12 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" >
 
 <xacro:macro name="wheel" params="prefix reflect">
-
     <joint name="${prefix}_wheel_joint" type="continuous">
         <parent link="base_link"/>
-        <child link="${prefix}_wheel"/>
+        <child  link="${prefix}_wheel"/>
         <origin xyz="0 ${diff_wheel_y * reflect} 0" rpy="${-pi/2 * reflect} 0 0"/>
         <axis xyz="0 0 ${reflect}"/>
     </joint>
-
     <link name="${prefix}_wheel">
     <visual>
         <geometry>
@@ -32,5 +30,4 @@
     </link>
   
 </xacro:macro>
-
 </robot>

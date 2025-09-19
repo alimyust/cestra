@@ -75,13 +75,23 @@
         <mu2 value="0.01"/>
     </gazebo>
 
-    <gazebo>
-        <plugin filename="gz-sim-joint-controller-system" name="gz::sim::systems::JointController">
-            <joint_name>left_wheel_joint</joint_name>
-            <joint_name>right_wheel_joint</joint_name>
-        </plugin>
+<gazebo>
+    <!-- Having a separate controller per joint -->
+  <plugin filename="gz-sim-joint-controller-system" name="gz::sim::systems::JointController">
+    <joint_name>left_wheel_joint</joint_name>
+  </plugin>
 
-    </gazebo>
+  <plugin filename="gz-sim-joint-controller-system" name="gz::sim::systems::JointController">
+    <joint_name>right_wheel_joint</joint_name>
+  </plugin>
+
+  <!-- Publishes sensor_msgs/JointState to /joint_states -->
+  <plugin filename="gz-sim-joint-state-publisher-system" name="gz::sim::systems::JointStatePublisher">
+    <joint_name>left_wheel_joint</joint_name>
+    <joint_name>right_wheel_joint</joint_name>
+  </plugin>
+</gazebo>
+
 
 </robot>
 
