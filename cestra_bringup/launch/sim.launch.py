@@ -71,6 +71,14 @@ def generate_launch_description():
         # parameters=[{'wheel_radius': 0.05, 'wheel_base': 0.19}]  # Example parameters
     )
 
+    odom_sim = Node(
+        executable='diff_drive_odom',
+        package='cestra_simulation',
+        name='diff_drive_odom',
+        output='screen',
+        # parameters=[{'wheel_radius': 0.05, 'wheel_base': 0.19}]  # Example parameters
+    )
+
     joy_params = os.path.join(bringup_pkg,'config','joystick.yaml')
     joy_node = Node(
         package='joy',
@@ -121,6 +129,6 @@ def generate_launch_description():
         ros_gz_bridge,
 
         diff_drive_sim,
-
+        odom_sim
         # ros_gz_image_bridge,
     ])

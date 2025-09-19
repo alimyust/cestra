@@ -2,7 +2,12 @@ import rclpy
 from rclpy.node import Node
 from geometry_msgs.msg import Twist
 from std_msgs.msg import Float64
+from sensor_msgs.msg import JointState
 
+"""
+Left Cmd-Vel + wheel radius => Wheel position
+
+"""
 
 
 class DiffDriveSim(Node):
@@ -12,11 +17,11 @@ class DiffDriveSim(Node):
         self.get_logger().info('DiffDriveSim node has been started.')
         self.wheel_radius = 0.05  # meters
         self.wheel_base = 0.3   # meters
+
         self.subscriber = self.create_subscription(Twist,'cmd_vel',self.cmd_vel_callback,10)
         self.left_wheel_publisher_ = self.create_publisher(Float64, 'left_wheel_velocity', 10)
         self.right_wheel_publisher_ = self.create_publisher(Float64, 'right_wheel_velocity', 10)
-
-
+            
     def cmd_vel_callback(self, msg:Twist):
         linear_x = msg.linear.x
         angular_z = msg.angular.z

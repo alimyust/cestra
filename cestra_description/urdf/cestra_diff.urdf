@@ -42,8 +42,8 @@
 </link>
 
 <!-- Diff Wheels -->
-<xacro:wheel prefix="left" reflect="1" />
-<xacro:wheel prefix="right" reflect="-1" />
+<xacro:diff_wheel prefix="left" reflect="1" />
+<xacro:diff_wheel prefix="right" reflect="-1" />
 
 <!-- Caster Wheels -->
 <joint name="caster_wheel_joint" type="fixed">
@@ -85,11 +85,11 @@
     <joint_name>right_wheel_joint</joint_name>
   </plugin>
 
-  <!-- Publishes sensor_msgs/JointState to /joint_states -->
+  <!-- Publishes sensor_msgs/JointState to /joint_states
   <plugin filename="gz-sim-joint-state-publisher-system" name="gz::sim::systems::JointStatePublisher">
     <joint_name>left_wheel_joint</joint_name>
     <joint_name>right_wheel_joint</joint_name>
-  </plugin>
+  </plugin> -->
 </gazebo>
 
 
