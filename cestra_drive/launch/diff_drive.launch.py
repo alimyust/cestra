@@ -10,7 +10,7 @@ def generate_launch_description():
     drive_dir = get_package_share_directory('cestra_drive')
     description_dir = get_package_share_directory('cestra_description')
 
-    robot_description = os.path.join(description_dir, 'urdf', 'cestra.urdf')
+    robot_description = os.path.join(description_dir, 'urdf', 'cestra_diff.urdf')
     robot_description_config = xacro.process_file(robot_description).toxml()
 
     rsp = Node(

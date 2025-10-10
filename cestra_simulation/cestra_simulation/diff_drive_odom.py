@@ -61,8 +61,7 @@ class DiffDriveOdom(Node):
         dt = (now - self.last_time).nanoseconds * 1e-9
         self.last_time = now
 
-        # read actual wheel angles from /joint_states for realism
-        # or integrate v_left/v_right if you trust commands
+        # Compute linear and angular velocity
         v = (self.v_right + self.v_left) * 0.5 * self.wheel_radius
         w = (self.v_right - self.v_left) * self.wheel_radius / self.wheel_base
 
@@ -86,17 +85,17 @@ class DiffDriveOdom(Node):
         self.odom_pub.publish(odom)
 
         # broadcast TF
-        t = TransformStamped()
-        t.header.stamp = now.to_msg()
-        t.header.frame_id = 'odom'
-        t.child_frame_id = 'base_link'
-        t.transform.translation.x = self.x
-        t.transform.translation.y = self.y
-        t.transform.rotation.x = q[0]
-        t.transform.rotation.y = q[1]
-        t.transform.rotation.z = q[2]
-        t.transform.rotation.w = q[3]
-        self.tf_broadcaster.sendTransform(t)
+        # t = TransformStamped()
+        # t.header.stamp = now.to_msg()
+        # t.header.frame_id = 'odom'
+        # t.child_frame_id = 'base_link'
+        # t.transform.translation.x = self.x
+        # t.transform.translation.y = self.y
+        # t.transform.rotation.x = q[0]
+        # t.transform.rotation.y = q[1]
+        # t.transform.rotation.z = q[2]
+        # t.transform.rotation.w = q[3]
+        # self.tf_broadcaster.sendTransform(t)
 
         self.left_angle  += self.v_left  * dt
         self.right_angle += self.v_right * dt
