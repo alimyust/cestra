@@ -23,6 +23,7 @@ setup(
         'console_scripts': [
             'serial_in = cestra_drive.serial_in:main',
             'diff_drive_bridge = cestra_drive.diff_drive_bridge:main',
+            'swerve_sim = cestra_drive.swerve_sim:main',
         ],
     },
 )

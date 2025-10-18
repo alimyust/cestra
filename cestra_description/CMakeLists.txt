@@ -20,6 +20,10 @@ install(DIRECTORY worlds/
   DESTINATION share/${PROJECT_NAME}/worlds
 )
 
+install(DIRECTORY meshes/
+  DESTINATION share/${PROJECT_NAME}/meshes
+)
+
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)

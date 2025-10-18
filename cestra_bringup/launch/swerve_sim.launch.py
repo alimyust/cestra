@@ -34,6 +34,15 @@ def generate_launch_description():
         output='screen',
         parameters=[{'robot_description': robot_description_config}]
     )
+
+    swerve_sim = Node(
+        package='cestra_drive',
+        executable='swerve_sim',
+        name='swerve_sim',
+        output='screen'
+        )
+
+
     world = LaunchConfiguration('world')
     
     world_arg = DeclareLaunchArgument(
@@ -63,23 +72,6 @@ def generate_launch_description():
                         output='screen'
     )
 
-    joy_params = os.path.join(bringup_pkg,'config','joystick.yaml')
-    joy_node = Node(
-        package='joy',
-        executable='joy_node',
-        name='joy_node',
-        output='screen'
-    )
-    
-    teleop_node = Node(
-        package='teleop_twist_joy',
-        executable='teleop_node',
-        name='teleop_node',
-        output='screen',
-        parameters=[joy_params],
-        # remappings=[('/cmd_vel', '/diff_cont/cmd_vel_unstamped')]
-    )
-
     bridge_params = os.path.join(bringup_pkg,'config','gz_bridge.yaml')
     ros_gz_bridge = Node(
         package="ros_gz_bridge",
@@ -91,28 +83,18 @@ def generate_launch_description():
         ]
     )
 
-    ros_gz_image_bridge = Node(
-        package="ros_gz_image",
-        executable="image_bridge",
-        arguments=["/camera/image_raw"]
-    )
 
 
     # Launch them all!
     return LaunchDescription([
         rsp,
         
-        # joy_node,
-        # teleop_node,
-
         world_arg,
         gazebo,
         rviz_launch,
 
         spawn_entity,
+        swerve_sim,
         ros_gz_bridge,
 
-        # joint_state_publisher,
-
-        # ros_gz_image_bridge,
     ])
