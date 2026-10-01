@@ -1,2 +1,2 @@
 # cestra
-A ROS2 robot based built w/o using Ros2_Control
+A collection of random robotics ideas and the barebones code to back them up.
