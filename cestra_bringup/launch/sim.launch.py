@@ -33,7 +33,15 @@ def generate_launch_description():
         output='screen',
         parameters=[{'robot_description': robot_description_config}]
     )
-
+    jsp = Node(
+        package='joint_state_publisher',
+        executable='joint_state_publisher',
+        name='joint_state_publisher',
+        output='screen',
+        parameters=[{
+            'robot_description': robot_description_config
+        }]
+    )
     world = LaunchConfiguration('world')
     
     world_arg = DeclareLaunchArgument(
@@ -117,8 +125,8 @@ def generate_launch_description():
     # Launch them all!
     return LaunchDescription([
         rsp,
-
-        joy_node,
+        jsp,
+        # joy_node,
         teleop_node,
 
         world_arg,
@@ -128,7 +136,7 @@ def generate_launch_description():
         spawn_entity,
         ros_gz_bridge,
 
-        diff_drive_sim,
-        odom_sim
+        # diff_drive_sim,
+        # odom_sim
         # ros_gz_image_bridge,
     ])
