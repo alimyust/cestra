@@ -7,6 +7,8 @@ import os
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch.actions import AppendEnvironmentVariable
 import xacro
+from launch.actions import ExecuteProcess
+from launch.conditions import IfCondition
 
 
 def generate_launch_description():
@@ -17,7 +19,14 @@ def generate_launch_description():
 
 
     use_sim_time = LaunchConfiguration('use_sim_time', default='true')
+    use_teleop = LaunchConfiguration("use_teleop")
     world_name = LaunchConfiguration('world_name')
+
+    rviz_config_path = PathJoinSubstitution([
+        cestra_turtle_dir,
+        'config',
+        'cestra_turtle.rviz'
+        ])
 
     world = PathJoinSubstitution([
         cestra_turtle_dir,
@@ -29,6 +38,12 @@ def generate_launch_description():
         'world_name',
         default_value='empty_world.world',
         description='World file located in the cestra_turtle/worlds directory'
+    )
+
+    declare_teleop = DeclareLaunchArgument(
+        'use_teleop',
+        default_value='true',
+        description='Wheter to use turtlebot3 teleop or not'
     )
 
     turtle_spawn = IncludeLaunchDescription(
@@ -60,12 +75,27 @@ def generate_launch_description():
         launch_arguments={'gz_args': '-g -v2 ', 'on_exit_shutdown': 'true'}.items()
     )
 
+    teleop_keyboard = ExecuteProcess(
+        cmd=[
+            'xterm',
+            '-e',
+            'bash', '-c',
+            'source /opt/ros/jazzy/setup.bash && '
+            'export TURTLEBOT3_MODEL=burger && '
+            'ros2 run turtlebot3_teleop teleop_keyboard; '
+            'exec bash'
+        ],
+        condition=IfCondition(use_teleop),
+        output='screen'
+    )
+
     rviz2 = Node(
-            package='rviz2',
-            namespace='',
-            executable='rviz2',
-            name='rviz2',
-        )
+        package='rviz2',
+        namespace='',
+        executable='rviz2',
+        name='rviz2',
+        arguments=['-d', rviz_config_path]
+    )
             
     set_env_vars_resources = AppendEnvironmentVariable(
         'GZ_SIM_RESOURCE_PATH',
@@ -75,12 +105,15 @@ def generate_launch_description():
     
     return LaunchDescription([
         declare_world,
+        declare_teleop,
+
         turtle_rsp,
         turtle_spawn,
 
         gzserver_cmd,
         gzclient_cmd,
 
+        teleop_keyboard,
         rviz2,
         set_env_vars_resources,
     ])

@@ -12,6 +12,8 @@ setup(
         ('share/' + package_name, ['package.xml']),
         (os.path.join('share', package_name, 'launch'), glob.glob(os.path.join('launch', '*.launch.py'))),
         (os.path.join('share', package_name, 'worlds'), glob.glob(os.path.join('worlds', '*.world'))),
+        
+        (os.path.join('share', package_name, 'config'), glob.glob(os.path.join('config', '*.rviz'))),
 
 
     ],
@@ -21,11 +23,6 @@ setup(
     maintainer_email='alimyust@gmail.com',
     description='TODO: Package description',
     license='TODO: License declaration',
-    extras_require={
-        'test': [
-            'pytest',
-        ],
-    },
     entry_points={
         'console_scripts': [
         ],
