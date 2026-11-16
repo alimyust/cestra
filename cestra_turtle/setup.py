@@ -14,6 +14,7 @@ setup(
         (os.path.join('share', package_name, 'worlds'), glob.glob(os.path.join('worlds', '*.world'))),
         
         (os.path.join('share', package_name, 'config'), glob.glob(os.path.join('config', '*.rviz'))),
+        (os.path.join('share', package_name, 'cestra_turtle'), glob.glob(os.path.join('cestra_turtle', '*.py'))),
 
 
     ],
@@ -25,6 +26,7 @@ setup(
     license='TODO: License declaration',
     entry_points={
         'console_scripts': [
+            'line_follower = cestra_turtle.line_follower:main',
         ],
     },
 )

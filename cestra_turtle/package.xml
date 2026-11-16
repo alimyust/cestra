@@ -11,6 +11,11 @@
   <exec_depend>turtlebot3_teleop</exec_depend>
   <exec_depend>turtlebot3_gazebo</exec_depend>
   <exec_depend>turtlebot3_description</exec_depend>
+
+  <exec_depend>rclpy</exec_depend>
+  <exec_depend>sensor_msgs</exec_depend>
+  <exec_depend>geometry_msgs</exec_depend>
+  <exec_depend>cv_bridge</exec_depend>
   <exec_depend>xterm</exec_depend>
 
   <test_depend>ament_copyright</test_depend>

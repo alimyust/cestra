@@ -113,7 +113,7 @@ def generate_launch_description():
         gzserver_cmd,
         gzclient_cmd,
 
-        teleop_keyboard,
+        # teleop_keyboard,
         rviz2,
         set_env_vars_resources,
     ])
