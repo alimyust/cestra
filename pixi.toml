@@ -1,0 +1,28 @@
+[workspace]
+name = "cestra-turtle"
+channels = ["robostack-jazzy", "conda-forge"]
+platforms = ["linux-64", "osx-64", "osx-arm64", "win-64"]
+
+[dependencies]
+python = "3.12.*"
+colcon-common-extensions = "*"
+opencv = "*"
+ros-jazzy-ament-index-python = "*"
+ros-jazzy-cv-bridge = "*"
+ros-jazzy-geometry-msgs = "*"
+ros-jazzy-launch = "*"
+ros-jazzy-launch-ros = "*"
+ros-jazzy-ros-base = "*"
+ros-jazzy-ros-gz-sim = "*"
+ros-jazzy-rviz2 = "*"
+ros-jazzy-sensor-msgs = "*"
+ros-jazzy-std-msgs = "*"
+ros-jazzy-turtlebot3 = "*"
+ros-jazzy-turtlebot3-description = "*"
+ros-jazzy-turtlebot3-gazebo = "*"
+ros-jazzy-turtlebot3-simulations = "*"
+ros-jazzy-turtlebot3-teleop = "*"
+ros-jazzy-xacro = "*"
+
+[tasks]
+build = "colcon build --base-paths cestra_turtle --packages-select cestra_turtle"
