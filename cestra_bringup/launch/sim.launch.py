@@ -21,7 +21,6 @@ def generate_launch_description():
     bringup_pkg = get_package_share_directory('cestra_bringup')
     description_pkg = get_package_share_directory('cestra_description')
     # simulation_pkg = get_package_share_directory('cestra_simulation')
-    
     default_world = os.path.join(description_pkg,'worlds','empty.world')    
     robot_description = os.path.join(description_pkg, 'urdf', 'cestra_diff.urdf')
     robot_description_config = xacro.process_file(robot_description).toxml()
@@ -33,6 +32,15 @@ def generate_launch_description():
         name='robot_state_publisher',
         output='screen',
         parameters=[{'robot_description': robot_description_config}]
+    )
+    jsp = Node(
+        package='joint_state_publisher',
+        executable='joint_state_publisher',
+        name='joint_state_publisher',
+        output='screen',
+        parameters=[{
+            'robot_description': robot_description_config
+        }]
     )
     world = LaunchConfiguration('world')
     
@@ -67,6 +75,14 @@ def generate_launch_description():
         executable='diff_drive_sim',
         package='cestra_simulation',
         name='diff_drive_sim',
+        output='screen',
+        # parameters=[{'wheel_radius': 0.05, 'wheel_base': 0.19}]  # Example parameters
+    )
+
+    odom_sim = Node(
+        executable='diff_drive_odom',
+        package='cestra_simulation',
+        name='diff_drive_odom',
         output='screen',
         # parameters=[{'wheel_radius': 0.05, 'wheel_base': 0.19}]  # Example parameters
     )
@@ -109,9 +125,9 @@ def generate_launch_description():
     # Launch them all!
     return LaunchDescription([
         rsp,
-        
+        jsp,
         # joy_node,
-        # teleop_node,
+        teleop_node,
 
         world_arg,
         gazebo,
@@ -120,8 +136,7 @@ def generate_launch_description():
         spawn_entity,
         ros_gz_bridge,
 
-        diff_drive_sim,
-        # joint_state_publisher,
-
+        # diff_drive_sim,
+        # odom_sim
         # ros_gz_image_bridge,
     ])

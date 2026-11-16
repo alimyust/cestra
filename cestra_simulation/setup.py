@@ -22,6 +22,8 @@ setup(
         'console_scripts': [
             # 'diff_drive_interface = cestra_drive.diff_drive_interface:main',
             'diff_drive_sim = cestra_simulation.diff_drive_sim:main',
+            'diff_drive_odom = cestra_simulation.diff_drive_odom:main',
+
         ],
     },
 )
