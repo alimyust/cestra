@@ -36,7 +36,7 @@ def generate_launch_description():
 
     declare_world = DeclareLaunchArgument(
         'world_name',
-        default_value='empty_world.world',
+        default_value='redlane_v1.world',
         description='World file located in the cestra_turtle/worlds directory'
     )
 
