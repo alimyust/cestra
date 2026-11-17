@@ -9,6 +9,7 @@ from launch.actions import AppendEnvironmentVariable
 import xacro
 from launch.actions import ExecuteProcess
 from launch.conditions import IfCondition
+from launch_ros.parameter_descriptions import ParameterValue
 
 
 def generate_launch_description():
@@ -21,6 +22,7 @@ def generate_launch_description():
     use_sim_time = LaunchConfiguration('use_sim_time', default='true')
     use_teleop = LaunchConfiguration("use_teleop")
     world_name = LaunchConfiguration('world_name')
+    camera_topic = LaunchConfiguration('camera_topic')
 
     rviz_config_path = PathJoinSubstitution([
         cestra_turtle_dir,
@@ -42,8 +44,14 @@ def generate_launch_description():
 
     declare_teleop = DeclareLaunchArgument(
         'use_teleop',
-        default_value='true',
+        default_value='false',
         description='Wheter to use turtlebot3 teleop or not'
+    )
+
+    declare_camera_topic = DeclareLaunchArgument(
+        'camera_topic',
+        default_value='/camera/image_raw',
+        description='Simulation camera image topic for line following'
     )
 
     turtle_spawn = IncludeLaunchDescription(
@@ -96,6 +104,18 @@ def generate_launch_description():
         name='rviz2',
         arguments=['-d', rviz_config_path]
     )
+
+    line_follower = Node(
+        package='cestra_turtle',
+        executable='line_follower_classic',
+        name='line_follower_classic',
+        output='screen',
+        parameters=[{
+            'use_webcam': False,
+            'camera_topic': camera_topic,
+            'use_sim_time': ParameterValue(use_sim_time, value_type=bool),
+        }]
+    )
             
     set_env_vars_resources = AppendEnvironmentVariable(
         'GZ_SIM_RESOURCE_PATH',
@@ -106,6 +126,7 @@ def generate_launch_description():
     return LaunchDescription([
         declare_world,
         declare_teleop,
+        declare_camera_topic,
 
         turtle_rsp,
         turtle_spawn,
@@ -113,7 +134,8 @@ def generate_launch_description():
         gzserver_cmd,
         gzclient_cmd,
 
-        # teleop_keyboard,
+        teleop_keyboard,
         rviz2,
+        line_follower,
         set_env_vars_resources,
     ])

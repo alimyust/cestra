@@ -3,11 +3,16 @@
 
 
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, ExecuteProcess
+from launch.actions import (
+    DeclareLaunchArgument,
+    IncludeLaunchDescription,
+    ExecuteProcess,
+)
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch.conditions import IfCondition
 from launch_ros.actions import Node
+from launch_ros.parameter_descriptions import ParameterValue
 from ament_index_python.packages import get_package_share_directory
 import os
 
@@ -20,6 +25,7 @@ def generate_launch_description():
     use_teleop = LaunchConfiguration('use_teleop')
     use_rviz = LaunchConfiguration('use_rviz')
     use_robot_bringup = LaunchConfiguration('use_robot_bringup')
+    camera_id = LaunchConfiguration('camera_id')
 
     rviz_config_path = PathJoinSubstitution([
         cestra_turtle_dir,
@@ -29,7 +35,7 @@ def generate_launch_description():
 
     declare_teleop = DeclareLaunchArgument(
         'use_teleop',
-        default_value='true',
+        default_value='false',
         description='Launch keyboard teleoperation'
     )
 
@@ -43,6 +49,12 @@ def generate_launch_description():
         'use_robot_bringup',
         default_value='true',
         description='Launch physical TurtleBot3 hardware drivers'
+    )
+
+    declare_camera_id = DeclareLaunchArgument(
+        'camera_id',
+        default_value='0',
+        description='OpenCV webcam device ID for line following'
     )
 
     # Physical TurtleBot3 bringup
@@ -82,12 +94,25 @@ def generate_launch_description():
         output='screen'
     )
 
+    line_follower = Node(
+        package='cestra_turtle',
+        executable='line_follower_classic',
+        name='line_follower_classic',
+        output='screen',
+        parameters=[{
+            'use_webcam': True,
+            'camera_id': ParameterValue(camera_id, value_type=int),
+        }]
+    )
+
     return LaunchDescription([
         declare_teleop,
         declare_rviz,
         declare_bringup,
+        declare_camera_id,
 
         turtlebot_bringup,
         teleop_keyboard,
         rviz2,
+        line_follower,
     ])

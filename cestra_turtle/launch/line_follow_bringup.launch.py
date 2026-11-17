@@ -1,4 +1,3 @@
-
 from launch import LaunchDescription
 from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
@@ -34,9 +33,13 @@ def generate_launch_description():
 
     line_follower = Node(
         package='cestra_turtle',
-        executable='line_follower',
-        name='line_follower',
-        output='screen'
+        executable='line_follower_classic',
+        name='line_follower_classic',
+        output='screen',
+        parameters=[{
+            'use_webcam': False,
+            'camera_topic': '/camera/image_raw'
+        }]
     )
 
     # --------------------------------------------------
